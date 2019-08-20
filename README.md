@@ -1,7 +1,7 @@
 # Random Dungeon Generator
 
 ## DISCLAIMER
-I didn't wrote this code, I found it online almost 10 years ago and integrated in a small XNA game I was working on at the time. The game was never completed and the source were buried in an old hard-drive.
+I haven't written this code, I found it online almost 10 years ago and integrated in a small XNA game I was working on at the time. The game was never completed and the source were buried in an old hard-drive.
 
 **I don't own these sources so if you're the author and you want them removed just let me know.**
 
