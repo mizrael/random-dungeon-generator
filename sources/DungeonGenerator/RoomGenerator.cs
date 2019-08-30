@@ -16,10 +16,6 @@ namespace DungeonGenerator
 
         #region Constructors
 
-        public RoomGenerator()
-        {
-        }
-
         public RoomGenerator(int noOfRoomsToPlace, int minRoomWidth, int maxRoomWidth, int minRoomHeight, int maxRoomHeight)
         {
             this.noOfRoomsToPlace = noOfRoomsToPlace;
