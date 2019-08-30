@@ -155,18 +155,18 @@ namespace DungeonGenerator
             return target.Value;
         }
 
-        public int[,] ExpandToTiles(int tileStep)
+        public TileType[,] ExpandToTiles(int tileStep)
         {
             int w = tileStep * (this.Width * 2 + 1);
             int h = tileStep * (this.Height * 2 + 1);
 
-            // Instantiate our tile array
-            int[,] tiles = new int[w, h];
+			// Instantiate our tile array
+			TileType[,] tiles = new TileType[w, h];
 
             // Initialize the tile array to rock
             for (int x = 0; x < w; x++)
                 for (int y = 0; y < h; y++)
-                    tiles[x, y] = (int)TileType.Void;
+                    tiles[x, y] = TileType.Void;
 
             // Fill tiles with corridor values for each room in dungeon
             foreach (Room room in this.Rooms)
@@ -178,12 +178,12 @@ namespace DungeonGenerator
                 // Fill the room in tile space with an empty value
                 for (int i = minPoint.X; i < maxPoint.X; i++)
                     for (int j = minPoint.Y; j < maxPoint.Y; j++)
-                        tiles[i, j] = (int)TileType.Empty;
+                        tiles[i, j] = TileType.Empty;
 
-                //tiles[minPoint.X - 1, minPoint.Y - 1] = (int)TileType.WallAngleSE;
-                //tiles[minPoint.X - 1, maxPoint.Y] = (int)TileType.WallAngleNE;
-                //tiles[maxPoint.X, minPoint.Y - 1] = (int)TileType.WallAngleSO;
-                //tiles[maxPoint.X, maxPoint.Y] = (int)TileType.WallAngleNO;
+                //tiles[minPoint.X - 1, minPoint.Y - 1] = TileType.WallAngleSE;
+                //tiles[minPoint.X - 1, maxPoint.Y] = TileType.WallAngleNE;
+                //tiles[maxPoint.X, minPoint.Y - 1] = TileType.WallAngleSO;
+                //tiles[maxPoint.X, maxPoint.Y] = TileType.WallAngleNO;
             }
 
             int doorSize = (int)Math.Ceiling((decimal)tileStep / 2);
@@ -196,58 +196,58 @@ namespace DungeonGenerator
 
                 for (int x = tileLocation.X; x != tileLocation.X + tileStep; ++x)
                     for (int y = tileLocation.Y; y != tileLocation.Y + tileStep; ++y)
-                        tiles[x, y] = (int)TileType.Empty;
+                        tiles[x, y] = TileType.Empty;
 
                 if (this[cellLocation].SouthSide == SideType.Empty)
                 {
                     for (int x = tileLocation.X; x != tileLocation.X + tileStep; ++x)
                         for (int y = tileLocation.Y + tileStep; y != tileLocation.Y + tileStep * 2 + 1; ++y)
-                            tiles[x, y] = (int)TileType.Empty;
+                            tiles[x, y] = TileType.Empty;
                 }
                 if (this[cellLocation].EastSide == SideType.Empty)
                 {
                     for (int x = tileLocation.X + tileStep; x != tileLocation.X + 1 + 2 * tileStep; ++x)
                         for (int y = tileLocation.Y; y != tileLocation.Y + tileStep; ++y)
-                            tiles[x, y] = (int)TileType.Empty;
+                            tiles[x, y] = TileType.Empty;
                 }
 
                 if (this[cellLocation].NorthSide == SideType.Door)
                 {
                     for (int x = tileLocation.X; x != tileLocation.X + tileStep; ++x)
                         for (int y = tileLocation.Y - tileStep - 1; y != tileLocation.Y; ++y)
-                            tiles[x, y] = (int)TileType.Empty;
+                            tiles[x, y] = TileType.Empty;
 
                     for (int x = tileLocation.X; x != tileLocation.X + tileStep; ++x)
-                        tiles[x, tileLocation.Y - 1] = (int)TileType.Wall;
+                        tiles[x, tileLocation.Y - 1] = TileType.Wall;
 
                     for (int x = tileLocation.X + startStep; x != tileLocation.X + startStep + doorSize; ++x)
-                        tiles[x, tileLocation.Y - 1] = (int)TileType.Door;
+                        tiles[x, tileLocation.Y - 1] = TileType.Door;
                 }
                 if (this[cellLocation].WestSide == SideType.Door)
                 {
                     for (int x = tileLocation.X - tileStep - 1; x != tileLocation.X; ++x)
                         for (int y = tileLocation.Y; y != tileLocation.Y + tileStep; ++y)
-                            tiles[x - 1, y] = (int)TileType.Empty;
+                            tiles[x - 1, y] = TileType.Empty;
 
                     for (int y = tileLocation.Y; y != tileLocation.Y + tileStep; ++y)
-                        tiles[tileLocation.X - 1, y] = (int)TileType.Wall;
+                        tiles[tileLocation.X - 1, y] = TileType.Wall;
 
                     for (int y = tileLocation.Y + startStep; y != tileLocation.Y + startStep + doorSize; ++y)
-                        tiles[tileLocation.X - 1, y] = (int)TileType.Door;
+                        tiles[tileLocation.X - 1, y] = TileType.Door;
                 }
                 // ******************************* //
                 // original code 
-                //if (dungeon[cellLocation].NorthSide == SideType.Empty) tiles[tileLocation.X, tileLocation.Y - 1] = (int)TileType.Empty;
-                //if (dungeon[cellLocation].NorthSide == SideType.Door) tiles[tileLocation.X, tileLocation.Y - 1] = (int)TileType.Door;
+                //if (dungeon[cellLocation].NorthSide == SideType.Empty) tiles[tileLocation.X, tileLocation.Y - 1] = TileType.Empty;
+                //if (dungeon[cellLocation].NorthSide == SideType.Door) tiles[tileLocation.X, tileLocation.Y - 1] = TileType.Door;
 
-                //if (dungeon[cellLocation].SouthSide == SideType.Empty) tiles[tileLocation.X, tileLocation.Y + 1] = (int)TileType.Empty;
-                //if (dungeon[cellLocation].SouthSide == SideType.Door) tiles[tileLocation.X, tileLocation.Y + 1] = (int)TileType.Door;
+                //if (dungeon[cellLocation].SouthSide == SideType.Empty) tiles[tileLocation.X, tileLocation.Y + 1] = TileType.Empty;
+                //if (dungeon[cellLocation].SouthSide == SideType.Door) tiles[tileLocation.X, tileLocation.Y + 1] = TileType.Door;
 
-                //if (dungeon[cellLocation].WestSide == SideType.Empty) tiles[tileLocation.X - 1, tileLocation.Y] = (int)TileType.Empty;
-                //if (dungeon[cellLocation].WestSide == SideType.Door) tiles[tileLocation.X - 1, tileLocation.Y] = (int)TileType.Door;
+                //if (dungeon[cellLocation].WestSide == SideType.Empty) tiles[tileLocation.X - 1, tileLocation.Y] = TileType.Empty;
+                //if (dungeon[cellLocation].WestSide == SideType.Door) tiles[tileLocation.X - 1, tileLocation.Y] = TileType.Door;
 
-                //if (dungeon[cellLocation].EastSide == SideType.Empty) tiles[tileLocation.X + 1, tileLocation.Y] = (int)TileType.Empty;
-                //if (dungeon[cellLocation].EastSide == SideType.Door) tiles[tileLocation.X + 1, tileLocation.Y] = (int)TileType.Door; 
+                //if (dungeon[cellLocation].EastSide == SideType.Empty) tiles[tileLocation.X + 1, tileLocation.Y] = TileType.Empty;
+                //if (dungeon[cellLocation].EastSide == SideType.Door) tiles[tileLocation.X + 1, tileLocation.Y] = TileType.Door; 
                 // ******************************* //
             }
 
@@ -257,74 +257,74 @@ namespace DungeonGenerator
                 for (int y = 1; y < h - 1; y++)
                 {
                     if (TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y - 1]) &&
-                         (tiles[x + 1, y] == (int)TileType.Empty) && (tiles[x, y + 1] == (int)TileType.Empty))
+                         (tiles[x + 1, y] == TileType.Empty) && (tiles[x, y + 1] == TileType.Empty))
                     {
                         if (TileIsWall(tiles[x, y]))
-                            tiles[x, y] = (int)TileType.WallNO;
-                        else if (tiles[x, y] == (int)TileType.Empty)
+                            tiles[x, y] = TileType.WallNO;
+                        else if (tiles[x, y] == TileType.Empty)
                         {
-                            tiles[x - 1, y - 1] = (int)TileType.WallSE;
-                            tiles[x - 1, y] = (int)TileType.WallNS;
-                            tiles[x, y - 1] = (int)TileType.WallEO;
+                            tiles[x - 1, y - 1] = TileType.WallSE;
+                            tiles[x - 1, y] = TileType.WallNS;
+                            tiles[x, y - 1] = TileType.WallEO;
                         }
                     }
 
                     if (TileIsWall(tiles[x + 1, y]) && TileIsWall(tiles[x, y - 1]) &&
-                       (tiles[x - 1, y] == (int)TileType.Empty) && (tiles[x, y + 1] == (int)TileType.Empty))
+                       (tiles[x - 1, y] == TileType.Empty) && (tiles[x, y + 1] == TileType.Empty))
                     {
                         if (TileIsWall(tiles[x, y]))
-                            tiles[x, y] = (int)TileType.WallNE;
-                        else if (tiles[x, y] == (int)TileType.Empty)
+                            tiles[x, y] = TileType.WallNE;
+                        else if (tiles[x, y] == TileType.Empty)
                         {
-                            tiles[x + 1, y - 1] = (int)TileType.WallSO;
-                            tiles[x + 1, y] = (int)TileType.WallNS;
-                            tiles[x, y - 1] = (int)TileType.WallEO;
+                            tiles[x + 1, y - 1] = TileType.WallSO;
+                            tiles[x + 1, y] = TileType.WallNS;
+                            tiles[x, y - 1] = TileType.WallEO;
                         }
                     }
 
                     if (TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y + 1]) &&
-                        (tiles[x + 1, y] == (int)TileType.Empty) && (tiles[x, y - 1] == (int)TileType.Empty))
+                        (tiles[x + 1, y] == TileType.Empty) && (tiles[x, y - 1] == TileType.Empty))
                     {
                         if (TileIsWall(tiles[x, y]))
-                            tiles[x, y] = (int)TileType.WallSO;
-                        else if (tiles[x, y] == (int)TileType.Empty)
+                            tiles[x, y] = TileType.WallSO;
+                        else if (tiles[x, y] == TileType.Empty)
                         {
-                            tiles[x - 1, y + 1] = (int)TileType.WallNE;
-                            tiles[x - 1, y] = (int)TileType.WallNS;
-                            tiles[x, y + 1] = (int)TileType.WallEO;
+                            tiles[x - 1, y + 1] = TileType.WallNE;
+                            tiles[x - 1, y] = TileType.WallNS;
+                            tiles[x, y + 1] = TileType.WallEO;
                         }
                     }
 
                     if (TileIsWall(tiles[x + 1, y]) && TileIsWall(tiles[x, y + 1]) &&
-                       (tiles[x - 1, y] == (int)TileType.Empty) && (tiles[x, y - 1] == (int)TileType.Empty))
+                       (tiles[x - 1, y] == TileType.Empty) && (tiles[x, y - 1] == TileType.Empty))
                     {
                         if (TileIsWall(tiles[x, y]))
-                            tiles[x, y] = (int)TileType.WallSE;
-                        else if (tiles[x, y] == (int)TileType.Empty)
+                            tiles[x, y] = TileType.WallSE;
+                        else if (tiles[x, y] == TileType.Empty)
                         {
-                            tiles[x + 1, y + 1] = (int)TileType.WallNO;
-                            tiles[x + 1, y] = (int)TileType.WallNS;
-                            tiles[x, y + 1] = (int)TileType.WallEO;
+                            tiles[x + 1, y + 1] = TileType.WallNO;
+                            tiles[x + 1, y] = TileType.WallNS;
+                            tiles[x, y + 1] = TileType.WallEO;
                         }
                     }
 
                     if ((TileIsWall(tiles[x - 1, y - 1]) && TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x - 1, y + 1]) &&
                          TileIsWall(tiles[x, y - 1]) && TileIsWall(tiles[x, y + 1]) &&
-                         (tiles[x + 1, y - 1] == (int)TileType.Empty) && (tiles[x + 1, y] == (int)TileType.Empty) && (tiles[x + 1, y + 1] == (int)TileType.Empty)) ||
+                         (tiles[x + 1, y - 1] == TileType.Empty) && (tiles[x + 1, y] == TileType.Empty) && (tiles[x + 1, y + 1] == TileType.Empty)) ||
                         (TileIsWall(tiles[x + 1, y - 1]) && TileIsWall(tiles[x + 1, y]) && TileIsWall(tiles[x + 1, y + 1]) &&
                          TileIsWall(tiles[x, y - 1]) && TileIsWall(tiles[x, y + 1]) &&
-                         (tiles[x - 1, y - 1] == (int)TileType.Empty) && (tiles[x - 1, y] == (int)TileType.Empty) && (tiles[x - 1, y + 1] == (int)TileType.Empty)))
+                         (tiles[x - 1, y - 1] == TileType.Empty) && (tiles[x - 1, y] == TileType.Empty) && (tiles[x - 1, y + 1] == TileType.Empty)))
                     {
-                        tiles[x, y] = (int)TileType.WallNS;
+                        tiles[x, y] = TileType.WallNS;
                     }
                     else if ((TileIsWall(tiles[x - 1, y - 1]) && TileIsWall(tiles[x, y - 1]) && TileIsWall(tiles[x + 1, y - 1]) &&
                          TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x + 1, y]) &&
-                         (tiles[x - 1, y + 1] == (int)TileType.Empty) && (tiles[x, y + 1] == (int)TileType.Empty) && (tiles[x + 1, y + 1] == (int)TileType.Empty)) ||
+                         (tiles[x - 1, y + 1] == TileType.Empty) && (tiles[x, y + 1] == TileType.Empty) && (tiles[x + 1, y + 1] == TileType.Empty)) ||
                         (TileIsWall(tiles[x - 1, y + 1]) && TileIsWall(tiles[x, y + 1]) && TileIsWall(tiles[x + 1, y + 1]) &&
                          TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x + 1, y]) &&
-                         (tiles[x - 1, y - 1] == (int)TileType.Empty) && (tiles[x, y - 1] == (int)TileType.Empty) && (tiles[x + 1, y - 1] == (int)TileType.Empty)))
+                         (tiles[x - 1, y - 1] == TileType.Empty) && (tiles[x, y - 1] == TileType.Empty) && (tiles[x + 1, y - 1] == TileType.Empty)))
                     {
-                        tiles[x, y] = (int)TileType.WallEO;
+                        tiles[x, y] = TileType.WallEO;
                     }
                 }
             }
@@ -336,56 +336,56 @@ namespace DungeonGenerator
                 {
                     if (TileIsWall(tiles[x - 1, y - 1]) && TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x - 1, y + 1]) &&
                          TileIsWall(tiles[x, y - 1]) && TileIsWall(tiles[x, y]) && TileIsWall(tiles[x, y + 1]) &&
-                         (tiles[x + 1, y - 1] == (int)TileType.Empty) && TileIsWall(tiles[x + 1, y]) && (tiles[x + 1, y + 1] == (int)TileType.Empty))
+                         (tiles[x + 1, y - 1] == TileType.Empty) && TileIsWall(tiles[x + 1, y]) && (tiles[x + 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNES;
+                        tiles[x, y] = TileType.WallNES;
                     }
                     else if (TileIsWall(tiles[x + 1, y - 1]) && TileIsWall(tiles[x + 1, y]) && TileIsWall(tiles[x + 1, y + 1]) &&
                          TileIsWall(tiles[x, y - 1]) && TileIsWall(tiles[x, y]) && TileIsWall(tiles[x, y + 1]) &&
-                         (tiles[x - 1, y - 1] == (int)TileType.Empty) && TileIsWall(tiles[x - 1, y]) && (tiles[x - 1, y + 1] == (int)TileType.Empty))
+                         (tiles[x - 1, y - 1] == TileType.Empty) && TileIsWall(tiles[x - 1, y]) && (tiles[x - 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNSO;
+                        tiles[x, y] = TileType.WallNSO;
                     }
                     else if (TileIsWall(tiles[x - 1, y - 1]) && TileIsWall(tiles[x, y - 1]) && TileIsWall(tiles[x + 1, y - 1]) &&
                         TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && TileIsWall(tiles[x + 1, y]) &&
-                         (tiles[x - 1, y + 1] == (int)TileType.Empty) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == (int)TileType.Empty))
+                         (tiles[x - 1, y + 1] == TileType.Empty) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallESO;
+                        tiles[x, y] = TileType.WallESO;
                     }
                     else if (TileIsWall(tiles[x - 1, y + 1]) && TileIsWall(tiles[x, y + 1]) && TileIsWall(tiles[x + 1, y + 1]) &&
                         TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && TileIsWall(tiles[x + 1, y]) &&
-                         (tiles[x - 1, y - 1] == (int)TileType.Empty) && TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == (int)TileType.Empty))
+                         (tiles[x - 1, y - 1] == TileType.Empty) && TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNEO;
+                        tiles[x, y] = TileType.WallNEO;
                     }
 
                     else if (TileIsWall(tiles[x, y - 1]) &&
-                            ((tiles[x - 1, y - 1] == (int)TileType.Empty) && TileIsWall(tiles[x + 1, y - 1]) || (tiles[x + 1, y - 1] == (int)TileType.Empty) && TileIsWall(tiles[x - 1, y - 1])) &&
+                            ((tiles[x - 1, y - 1] == TileType.Empty) && TileIsWall(tiles[x + 1, y - 1]) || (tiles[x + 1, y - 1] == TileType.Empty) && TileIsWall(tiles[x - 1, y - 1])) &&
                              TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && TileIsWall(tiles[x + 1, y]) &&
-                             (tiles[x - 1, y + 1] == (int)TileType.Empty) && (tiles[x, y + 1] == (int)TileType.Empty) && (tiles[x + 1, y + 1] == (int)TileType.Empty))
+                             (tiles[x - 1, y + 1] == TileType.Empty) && (tiles[x, y + 1] == TileType.Empty) && (tiles[x + 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNEO;
+                        tiles[x, y] = TileType.WallNEO;
                     }
 
-                    else if ((tiles[x - 1, y - 1] == (int)TileType.Empty) && TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == (int)TileType.Empty) &&
-                             TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && (tiles[x + 1, y] == (int)TileType.Empty) &&
-                             TileIsWall(tiles[x - 1, y + 1]) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == (int)TileType.Empty))
+                    else if ((tiles[x - 1, y - 1] == TileType.Empty) && TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == TileType.Empty) &&
+                             TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && (tiles[x + 1, y] == TileType.Empty) &&
+                             TileIsWall(tiles[x - 1, y + 1]) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNSO;
+                        tiles[x, y] = TileType.WallNSO;
                     }
-                    else if (TileIsWall(tiles[x - 1, y - 1]) && TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == (int)TileType.Empty) &&
-                         TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && (tiles[x + 1, y] == (int)TileType.Empty) &&
-                         (tiles[x - 1, y + 1] == (int)TileType.Empty) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == (int)TileType.Empty))
+                    else if (TileIsWall(tiles[x - 1, y - 1]) && TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == TileType.Empty) &&
+                         TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && (tiles[x + 1, y] == TileType.Empty) &&
+                         (tiles[x - 1, y + 1] == TileType.Empty) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNSO;
+                        tiles[x, y] = TileType.WallNSO;
                     }
 
-                    else if ((TileIsWall(tiles[x - 1, y - 1]) || (tiles[x - 1, y - 1] == (int)TileType.Empty)) &&
-                            TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == (int)TileType.Empty) &&
+                    else if ((TileIsWall(tiles[x - 1, y - 1]) || (tiles[x - 1, y - 1] == TileType.Empty)) &&
+                            TileIsWall(tiles[x, y - 1]) && (tiles[x + 1, y - 1] == TileType.Empty) &&
                             TileIsWall(tiles[x - 1, y]) && TileIsWall(tiles[x, y]) && TileIsWall(tiles[x + 1, y]) &&
-                            (tiles[x - 1, y + 1] == (int)TileType.Empty) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == (int)TileType.Empty))
+                            (tiles[x - 1, y + 1] == TileType.Empty) && TileIsWall(tiles[x, y + 1]) && (tiles[x + 1, y + 1] == TileType.Empty))
                     {
-                        tiles[x, y] = (int)TileType.WallNESO;
+                        tiles[x, y] = TileType.WallNESO;
                     }
                 }
             }
@@ -395,20 +395,20 @@ namespace DungeonGenerator
               {
                   for (int y = 0; y < h; y++)
                   {
-                      if (tiles[x, y] != (int)TileType.Door) continue;
+                      if (tiles[x, y] != TileType.Door) continue;
 
-                      if (tiles[x - 1, y] == (int)TileType.Wall) continue;
-                      if (tiles[x, y - 1] == (int)TileType.Wall) continue;
-                      if (tiles[x - 1, y - 1] == (int)TileType.Wall) continue;
+                      if (tiles[x - 1, y] == TileType.Wall) continue;
+                      if (tiles[x, y - 1] == TileType.Wall) continue;
+                      if (tiles[x - 1, y - 1] == TileType.Wall) continue;
 
-                      if (tiles[x + 1, y] == (int)TileType.Wall) continue;
-                      if (tiles[x, y + 1] == (int)TileType.Wall) continue;
-                      if (tiles[x + 1, y + 1] == (int)TileType.Wall) continue;
+                      if (tiles[x + 1, y] == TileType.Wall) continue;
+                      if (tiles[x, y + 1] == TileType.Wall) continue;
+                      if (tiles[x + 1, y + 1] == TileType.Wall) continue;
 
-                      if (tiles[x - 1, y + 1] == (int)TileType.Wall) continue;
-                      if (tiles[x + 1, y - 1] == (int)TileType.Wall) continue;
+                      if (tiles[x - 1, y + 1] == TileType.Wall) continue;
+                      if (tiles[x + 1, y - 1] == TileType.Wall) continue;
 
-                      tiles[x, y] = (int)TileType.Empty;
+                      tiles[x, y] = TileType.Empty;
                   }
               }
               // clean up doors glitches
@@ -416,26 +416,26 @@ namespace DungeonGenerator
               {
                   for (int y = 0; y < h; y++)
                   {
-                      if (tiles[x, y] != (int)TileType.Door) continue;
+                      if (tiles[x, y] != TileType.Door) continue;
 
-                      if (tiles[x - 1, y] == (int)TileType.Wall && tiles[x + 1, y] == (int)TileType.Empty)
+                      if (tiles[x - 1, y] == TileType.Wall && tiles[x + 1, y] == TileType.Empty)
                       {
-                          tiles[x, y] = (int)TileType.Empty;
+                          tiles[x, y] = TileType.Empty;
                           continue;
                       }
-                      if (tiles[x + 1, y] == (int)TileType.Wall && tiles[x - 1, y] == (int)TileType.Empty)
+                      if (tiles[x + 1, y] == TileType.Wall && tiles[x - 1, y] == TileType.Empty)
                       {
-                          tiles[x, y] = (int)TileType.Empty;
+                          tiles[x, y] = TileType.Empty;
                           continue;
                       }
-                      if (tiles[x, y - 1] == (int)TileType.Wall && tiles[x, y + 1] == (int)TileType.Empty)
+                      if (tiles[x, y - 1] == TileType.Wall && tiles[x, y + 1] == TileType.Empty)
                       {
-                          tiles[x, y] = (int)TileType.Empty;
+                          tiles[x, y] = TileType.Empty;
                           continue;
                       }
-                      if (tiles[x, y + 1] == (int)TileType.Wall && tiles[x, y - 1] == (int)TileType.Empty)
+                      if (tiles[x, y + 1] == TileType.Wall && tiles[x, y - 1] == TileType.Empty)
                       {
-                          tiles[x, y] = (int)TileType.Empty;
+                          tiles[x, y] = TileType.Empty;
                           continue;
                       }
                   }
@@ -444,9 +444,9 @@ namespace DungeonGenerator
             return tiles;
         }
 
-        private static bool TileIsWall(int tile)
+        private static bool TileIsWall(TileType tile)
         {
-            return (tile >= (int)TileType.Wall && tile <= (int)TileType.WallNESO) || tile == (int)TileType.Void;
+            return (tile >= TileType.Wall && tile <= TileType.WallNESO) || tile == TileType.Void;
         }
 
         #endregion

@@ -1,6 +1,6 @@
 namespace DungeonGenerator
 {
-    public sealed class Random
+    internal sealed class Random
     {
         #region Singleton
 
